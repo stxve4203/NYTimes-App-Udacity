@@ -20,6 +20,9 @@ class ArticlesViewController: UIViewController {
     var articleText: String?
     var articleImage: UIImage?
     var articleImageURL: String?
+    var articleSection: String?
+    var articlePublishedDate: String?
+    var articleUpdatedDate: String?
     
     @IBOutlet weak var tableView: UITableView!
     
@@ -58,9 +61,12 @@ extension ArticlesViewController: UITableViewDelegate, UITableViewDataSource {
         let articleArray = articles[indexPath.row]
         articleText = articleArray.abstract
         articleTitle = articleArray.title
+        articleSection = articleArray.section
+        articleUpdatedDate = articleArray.updatedDate
+        articlePublishedDate = articleArray.publishedDate
         
         let multimedia = articleArray.multimedia
-        for media in multimedia! {
+        for media in multimedia ?? [] {
             let mediaURL = media.url
             articleImageURL = mediaURL
             nyTimesService.getImages(img: mediaURL) { image, error in
@@ -74,10 +80,14 @@ extension ArticlesViewController: UITableViewDelegate, UITableViewDataSource {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == SegueIdentifiers.SHOW_DETAILS {
             let detailsVC = segue.destination as? DetailsViewController
+            
             detailsVC?.articleTitle = articleTitle
             detailsVC?.articleText = articleText
             detailsVC?.articleImage = articleImage
             detailsVC?.articleImageURL = articleImageURL
+            detailsVC?.articlePublishedDate = articlePublishedDate
+            detailsVC?.articleSection = articleSection
+            detailsVC?.articleUpdatedDate = articleUpdatedDate
             
         }
     }

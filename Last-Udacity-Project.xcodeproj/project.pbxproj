@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		AA2FCED3280F5D1F004B7A22 /* DetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA2FCED2280F5D1F004B7A22 /* DetailsViewController.swift */; };
 		AA2FCED6280F67D6004B7A22 /* FavoriteArticlesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA2FCED5280F67D6004B7A22 /* FavoriteArticlesViewController.swift */; };
+		AA2FCED928102491004B7A22 /* FavoritesTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA2FCED828102491004B7A22 /* FavoritesTableViewCell.swift */; };
+		AA2FCEDB2810316D004B7A22 /* FavoriteDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA2FCEDA2810316D004B7A22 /* FavoriteDetailsViewController.swift */; };
 		AADF78DB280D79F8002E2F13 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = AADF78DA280D79F8002E2F13 /* AppDelegate.swift */; };
 		AADF78DD280D79F8002E2F13 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = AADF78DC280D79F8002E2F13 /* SceneDelegate.swift */; };
 		AADF78DF280D79F8002E2F13 /* CategoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AADF78DE280D79F8002E2F13 /* CategoryViewController.swift */; };
@@ -27,6 +29,8 @@
 /* Begin PBXFileReference section */
 		AA2FCED2280F5D1F004B7A22 /* DetailsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailsViewController.swift; sourceTree = "<group>"; };
 		AA2FCED5280F67D6004B7A22 /* FavoriteArticlesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoriteArticlesViewController.swift; sourceTree = "<group>"; };
+		AA2FCED828102491004B7A22 /* FavoritesTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoritesTableViewCell.swift; sourceTree = "<group>"; };
+		AA2FCEDA2810316D004B7A22 /* FavoriteDetailsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoriteDetailsViewController.swift; sourceTree = "<group>"; };
 		AADF78D7280D79F8002E2F13 /* Last-Udacity-Project.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Last-Udacity-Project.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		AADF78DA280D79F8002E2F13 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		AADF78DC280D79F8002E2F13 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -59,8 +63,18 @@
 			isa = PBXGroup;
 			children = (
 				AA2FCED5280F67D6004B7A22 /* FavoriteArticlesViewController.swift */,
+				AA2FCEDA2810316D004B7A22 /* FavoriteDetailsViewController.swift */,
+				AA2FCED72810247C004B7A22 /* Cells */,
 			);
 			path = Favorites;
+			sourceTree = "<group>";
+		};
+		AA2FCED72810247C004B7A22 /* Cells */ = {
+			isa = PBXGroup;
+			children = (
+				AA2FCED828102491004B7A22 /* FavoritesTableViewCell.swift */,
+			);
+			path = Cells;
 			sourceTree = "<group>";
 		};
 		AADF78CE280D79F8002E2F13 = {
@@ -224,12 +238,14 @@
 				AADF78F7280ECFB5002E2F13 /* Constants.swift in Sources */,
 				AADF78FD280ED66D002E2F13 /* NYTimesService.swift in Sources */,
 				AADF78FB280ED476002E2F13 /* ArticlesTableViewCell.swift in Sources */,
+				AA2FCEDB2810316D004B7A22 /* FavoriteDetailsViewController.swift in Sources */,
 				AA2FCED3280F5D1F004B7A22 /* DetailsViewController.swift in Sources */,
 				AADF78DF280D79F8002E2F13 /* CategoryViewController.swift in Sources */,
 				AADF78DB280D79F8002E2F13 /* AppDelegate.swift in Sources */,
 				AADF78F9280ED286002E2F13 /* ArticlesViewController.swift in Sources */,
 				AADF7901280ED6B3002E2F13 /* NYTimesService + Constants.swift in Sources */,
 				AADF78DD280D79F8002E2F13 /* SceneDelegate.swift in Sources */,
+				AA2FCED928102491004B7A22 /* FavoritesTableViewCell.swift in Sources */,
 				AA2FCED6280F67D6004B7A22 /* FavoriteArticlesViewController.swift in Sources */,
 				AADF78FF280ED67C002E2F13 /* NYTimesResponse.swift in Sources */,
 				AADF78F5280ECF8F002E2F13 /* CategoryTableViewCell.swift in Sources */,
