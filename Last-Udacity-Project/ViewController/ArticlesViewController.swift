@@ -23,6 +23,7 @@ class ArticlesViewController: UIViewController {
     var articleSection: String?
     var articlePublishedDate: String?
     var articleUpdatedDate: String?
+    var articleURL: String?
     
     @IBOutlet weak var tableView: UITableView!
     
@@ -51,29 +52,35 @@ extension ArticlesViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: Cells.ARTICLES_CELL , for: indexPath) as? ArticlesTableViewCell
+        
         let articleArray = articles[indexPath.row]
+        
         cell?.titleLabel.text = articleArray.title
         
         return cell!
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let articleArray = articles[indexPath.row]
-        articleText = articleArray.abstract
-        articleTitle = articleArray.title
-        articleSection = articleArray.section
-        articleUpdatedDate = articleArray.updatedDate
-        articlePublishedDate = articleArray.publishedDate
-        
-        let multimedia = articleArray.multimedia
-        for media in multimedia ?? [] {
-            let mediaURL = media.url
-            articleImageURL = mediaURL
-            nyTimesService.getImages(img: mediaURL) { image, error in
-                self.articleImage = image
+        DispatchQueue.main.async { [self] in
+            let articleArray = articles[indexPath.row]
+            articleText = articleArray.abstract
+            articleTitle = articleArray.title
+            articleSection = articleArray.section
+            articleUpdatedDate = articleArray.updatedDate
+            articlePublishedDate = articleArray.publishedDate
+           articleURL =     articleArray.url
+            let multimedia = articleArray.multimedia
+            for media in multimedia ?? [] {
+                let mediaURL = media.url
+                articleImageURL = mediaURL
+                    self.nyTimesService.getImages(img: mediaURL) { image, error in
+                        self.articleImage = image
+                
+                }
             }
+            performSegue(withIdentifier: SegueIdentifiers.SHOW_DETAILS, sender: nil)
         }
-        performSegue(withIdentifier: SegueIdentifiers.SHOW_DETAILS, sender: nil)
+       
     }
     
     
@@ -88,7 +95,7 @@ extension ArticlesViewController: UITableViewDelegate, UITableViewDataSource {
             detailsVC?.articlePublishedDate = articlePublishedDate
             detailsVC?.articleSection = articleSection
             detailsVC?.articleUpdatedDate = articleUpdatedDate
-            
+            detailsVC?.articleURL = articleURL
         }
     }
 }

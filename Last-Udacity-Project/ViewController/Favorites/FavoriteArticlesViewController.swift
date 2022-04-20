@@ -19,6 +19,7 @@ class FavoriteArticlesViewController: UIViewController {
     var articleSection: String?
     var articlePublishedDate: String?
     var articleUpdatedDate: String?
+    var articleURL: String?
     
     @IBOutlet weak var tableView: UITableView!
 
@@ -41,30 +42,6 @@ class FavoriteArticlesViewController: UIViewController {
         UserDefaults.standard.synchronize()
         tableView.reloadData()
     }
-    
-    @IBAction func startEditing(_ sender: UIBarButtonItem) {
-        if(self.tableView.isEditing == true)
-          {
-              self.tableView.isEditing = false
-              self.editButton.title  = "Edit"
-          }
-          else
-          {
-              self.tableView.isEditing = true
-              self.editButton.title = "Done"
-          }
-    }
-    
-    @IBAction func deleteRows(_ sender: UIBarButtonItem) {
-        if let selectedRows = tableView.indexPathsForSelectedRows {
-            UserDefaults.standard.removeObject(forKey: Constants.FAVORITE_ARTICLES)
-            UserDefaults.standard.synchronize()
-            tableView.beginUpdates()
-            tableView.deleteRows(at: selectedRows, with: .automatic)
-            tableView.endUpdates()
-        }
-    }
-    
 
 }
 
@@ -118,6 +95,9 @@ extension FavoriteArticlesViewController: UITableViewDelegate, UITableViewDataSo
         let favoriteArticleImage = indexPathForDict["articleImageURL"] as? String
         articleImageURL = favoriteArticleImage
         
+        let favoriteArticleURL = indexPathForDict["articleURL"] as? String
+        articleURL = favoriteArticleURL
+        
         performSegue(withIdentifier: SegueIdentifiers.SHOW_FAVORITE_DETAILS, sender: nil)
     }
     
@@ -131,6 +111,7 @@ extension FavoriteArticlesViewController: UITableViewDelegate, UITableViewDataSo
             favoriteDetailsVC?.articleSection = articleSection
             favoriteDetailsVC?.articleUpdatedDate = articleUpdatedDate
             favoriteDetailsVC?.articlePublishedDate = articlePublishedDate
+            favoriteDetailsVC?.articleURL = articleURL
         }
     }
     

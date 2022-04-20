@@ -23,6 +23,7 @@ class FavoriteDetailsViewController: UIViewController {
     var articleSection: String?
     var articlePublishedDate: String?
     var articleUpdatedDate: String?
+    var articleURL: String?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -31,33 +32,32 @@ class FavoriteDetailsViewController: UIViewController {
         
     }
     
-    func setLabels() {
-        titleLabel.text = articleTitle
-        textLabel.text = articleText
-        sectionLabel.text = articleSection
-        
-        let convertedUpdatedDate = convertDate(inputDate: articleUpdatedDate ?? "")
-        let convertedPublishedDate =  convertDate(inputDate: articlePublishedDate ?? "")
-        publishedAtLabel.text = convertedPublishedDate
-        updatedAtLabel.text = convertedUpdatedDate
-        
-        let image = NYTimesService().getImages(img: articleImageURL) { image, error in
-            self.imageView.image = image
-        }
-        
-        func convertDate(inputDate: String) -> String {
-            let dateFormatterGet = DateFormatter()
-               dateFormatterGet.dateFormat = "yyyy-MM-dd'T'HH:mm:ss"
-               let dateFormatterPrint = DateFormatter()
-               dateFormatterPrint.dateFormat = "MMM dd yyyy h:mm a"  //"MMM d, h:mm a" for  Sep 12, 2:11 PM
-               let datee = dateFormatterGet.date(from: inputDate)
-            return dateFormatterPrint.string(from: datee ?? Date())
-            
-        }
 
-        
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        DispatchQueue.main.async {
+            let image = NYTimesService().getImages(img: self.articleImageURL) { image, error in
+                self.imageView.image = image
+        }
+    }
+
     }
     
+    
+    func setLabels() {
 
+        titleLabel.text = articleTitle
+        textLabel.text = articleText
+        sectionLabel.text = "Category: \(articleSection?.uppercased() ?? "")"
+    
+        publishedAtLabel.text = "Published Date: \(articlePublishedDate ?? "")"
+        updatedAtLabel.text = "Updated At: \(articleUpdatedDate ?? "")"
 
+        }
+    
+    @IBAction func openLink(_ sender: Any) {
+        if let url = URL(string: articleURL ?? "") {
+            UIApplication.shared.open(url)
+        }
+    }
 }
