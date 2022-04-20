@@ -11,6 +11,7 @@ class FavoriteArticlesViewController: UIViewController {
 
     var savedDict = [String: Any]()
     var articlesList: [String] = []
+    var fetchedArrayWithDictionary: [[String: Any]] = []
     
     var articleTitle: String?
     var articleText: String?
@@ -26,13 +27,10 @@ class FavoriteArticlesViewController: UIViewController {
     @IBOutlet weak var editButton: UIBarButtonItem!
     @IBOutlet weak var deleteButton: UIBarButtonItem!
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
-
-    }
-    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        let fetchedArray = (UserDefaults.standard.array(forKey: Constants.FAVORITE_ARTICLES) as? [[String: Any]])
+        fetchedArrayWithDictionary = fetchedArray ?? []
         tableView.reloadData()
     }
 
@@ -48,17 +46,14 @@ class FavoriteArticlesViewController: UIViewController {
 extension FavoriteArticlesViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        let fetchedArrayWithDictionary = (UserDefaults.standard.array(forKey: Constants.FAVORITE_ARTICLES) as? [[String: Any]])
-        
-        return fetchedArrayWithDictionary?.count ?? 0
+        return fetchedArrayWithDictionary.count
 
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: Cells.FAVORITE_ARTICLE_CELL, for: indexPath) as? FavoritesTableViewCell
-        let fetchedArrayWithDictionary = (UserDefaults.standard.array(forKey: Constants.FAVORITE_ARTICLES) as? [[String: Any]])
         
-        let indexPathForDict = fetchedArrayWithDictionary![indexPath.row]
+        let indexPathForDict = fetchedArrayWithDictionary[indexPath.row]
         
         let favoriteArticleTitle = indexPathForDict["articleTitle"] as? String
        
@@ -73,9 +68,7 @@ extension FavoriteArticlesViewController: UITableViewDelegate, UITableViewDataSo
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
-        let fetchedArrayWithDictionary = (UserDefaults.standard.array(forKey: Constants.FAVORITE_ARTICLES) as? [[String: Any]])
-        
-        let indexPathForDict = fetchedArrayWithDictionary![indexPath.row]
+        let indexPathForDict = fetchedArrayWithDictionary[indexPath.row]
         
         let favoriteArticleTitle = indexPathForDict["articleTitle"] as? String
         articleTitle = favoriteArticleTitle
@@ -112,6 +105,19 @@ extension FavoriteArticlesViewController: UITableViewDelegate, UITableViewDataSo
             favoriteDetailsVC?.articleUpdatedDate = articleUpdatedDate
             favoriteDetailsVC?.articlePublishedDate = articlePublishedDate
             favoriteDetailsVC?.articleURL = articleURL
+        }
+    }
+    
+    func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
+        return true
+    }
+    
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+        if editingStyle == .delete {
+            fetchedArrayWithDictionary.remove(at: indexPath.row)
+            UserDefaults.standard.set(fetchedArrayWithDictionary, forKey: Constants.FAVORITE_ARTICLES)
+            UserDefaults.standard.synchronize()
+            tableView.reloadData()
         }
     }
     

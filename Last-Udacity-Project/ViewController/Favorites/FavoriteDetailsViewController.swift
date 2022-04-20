@@ -15,6 +15,7 @@ class FavoriteDetailsViewController: UIViewController {
     @IBOutlet weak var sectionLabel: UILabel!
     @IBOutlet weak var publishedAtLabel: UILabel!
     @IBOutlet weak var updatedAtLabel: UILabel!
+    @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     
     var articleTitle: String?
     var articleText: String?
@@ -36,11 +37,16 @@ class FavoriteDetailsViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         DispatchQueue.main.async {
-            let image = NYTimesService().getImages(img: self.articleImageURL) { image, error in
+            self.activityIndicator.startAnimating()
+            _ = NYTimesService().getImages(img: self.articleImageURL) { image, error in
+                if error != nil {
+                    self.showAlert()
+                } else {
                 self.imageView.image = image
-        }
+            }
+        self.activityIndicator.stopAnimating()
+            }
     }
-
     }
     
     
@@ -59,5 +65,11 @@ class FavoriteDetailsViewController: UIViewController {
         if let url = URL(string: articleURL ?? "") {
             UIApplication.shared.open(url)
         }
+    }
+    
+    func showAlert() {
+        let alert = UIAlertController(title: "Error downloading photo", message: "Check your internet connection and try again", preferredStyle: UIAlertController.Style.alert)
+        alert.addAction(UIAlertAction(title: "Click", style: UIAlertAction.Style.default, handler: nil))
+        self.present(alert, animated: true, completion: nil)
     }
 }
