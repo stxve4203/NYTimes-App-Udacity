@@ -36,17 +36,18 @@ class FavoriteDetailsViewController: UIViewController {
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        self.activityIndicator.startAnimating()
         DispatchQueue.main.async {
-            self.activityIndicator.startAnimating()
             _ = NYTimesService().getImages(img: self.articleImageURL) { image, error in
-                if error != nil {
+                if error != nil, image == nil {
                     self.showAlert()
                 } else {
                 self.imageView.image = image
             }
-        self.activityIndicator.stopAnimating()
             }
     }
+        self.activityIndicator.stopAnimating()
+
     }
     
     
@@ -69,7 +70,7 @@ class FavoriteDetailsViewController: UIViewController {
     
     func showAlert() {
         let alert = UIAlertController(title: "Error downloading photo", message: "Check your internet connection and try again", preferredStyle: UIAlertController.Style.alert)
-        alert.addAction(UIAlertAction(title: "Click", style: UIAlertAction.Style.default, handler: nil))
+        alert.addAction(UIAlertAction(title: "Try again", style: UIAlertAction.Style.default, handler: nil))
         self.present(alert, animated: true, completion: nil)
     }
 }
